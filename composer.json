@@ -1,0 +1,24 @@
+{
+    "name": "jun3/router",
+    "authors": [
+        {
+            "name": "Jun",
+            "email": "zhoujun@kzl.com.cn"
+        }
+    ],
+    "keywords": [
+        "route",
+        "router",
+        "jun3 router",
+        "jun3 route"
+    ],
+    "require": {
+        "php": ">=7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "jun\\router\\": "src/"
+        },
+        "classmap": []
+    }
+}
