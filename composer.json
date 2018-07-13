@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "jun\\router\\": "src/"
+            "jun3\\router\\": "src/"
         },
         "classmap": []
     }

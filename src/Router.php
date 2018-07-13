@@ -1,6 +1,6 @@
 <?php
 
-namespace jun\router;
+namespace jun3\router;
 
 /**
  * @uses     Router
@@ -86,20 +86,20 @@ class Router
         $pathArr = array_values($pathArr);
 
         // 设置控制器
-        if (isset($pathArr[0])) {
+        if (isset($pathArr[0]) && !empty($pathArr[0])) {
             $this->controller = $pathArr[0];
             unset($pathArr[0]);
         }
 
         // 设置action
-        if (isset($pathArr[1])) {
+        if (isset($pathArr[1]) && !empty($pathArr[1])) {
             $this->action = $pathArr[1];
             unset($pathArr[1]);
         }
 
-        $pathArr = array_values($pathArr);              // 获取参数
+        $pathArr = array_values($pathArr);          // 获取参数
 
-        $i = 0;                                   // 设置开始值
+        $i = 0;                                     // 设置开始值
         while ($i < count($pathArr)) {
             $n = $i + 1;                            // 值得key
             if (!isset($pathArr[$n])) {             // 参数值不存在直接结束
@@ -147,8 +147,8 @@ class Router
         //
         $defaultControllerName = $controlName = ucfirst(strtolower($this->controller));
         // 设置控制器
-        $controlPath = self::$_ds . $this->app_name . self::$_ds . 'controllers' . self::$_ds . $this->module;
-        $controlPath = str_replace(self::$_ds, '\\', $controlPath);
+        $defaultControllerPath = $controlPath = self::$_ds . $this->app_name . self::$_ds . 'controllers' . self::$_ds . $this->module;
+        $controlPath           = str_replace(self::$_ds, '\\', $controlPath);
 
         // 设置错误控制器
         if (!class_exists($controlPath . $controlName)) {
@@ -157,7 +157,8 @@ class Router
 
         // 抛出找不到控制错误异常
         if (!class_exists($controlPath . $controlName)) {
-            throw  new \Exception($defaultControllerName . " 控制器不存在");
+            $controlPath = '\\jun3\\router\\';
+            $controlName = 'Error';
         }
 
         // 转义
@@ -177,7 +178,12 @@ class Router
 
         // 开始清理输出缓存
         ob_clean();
-        $result = call_user_func_array([$controller, $action], $_GET);
+        $params = $_GET;
+        if ($controlName == 'Error') {
+            $params = [$defaultControllerName, $defaultControllerPath];
+        }
+
+        $result = call_user_func_array([$controller, $action], $params);
 
         return $result;
     }

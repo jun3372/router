@@ -2,5 +2,5 @@
 
 include_once __DIR__ . '/../vendor/autoload.php';
 
-$app = \jun\router\Router::run();
+$app = \jun3\router\Router::run();
 $app->runAction();
